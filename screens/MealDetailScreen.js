@@ -1,35 +1,38 @@
-import { useLayoutEffect } from "react";
-import { Image, StyleSheet, Text, View, ScrollView, Button } from "react-native";
-import IconButton from "../components/IconButton";
-import List from "../components/MealDetail/List";
-import Subtitle from "../components/MealDetail/Subtitle";
-import MealDetails from "../components/MealDetails";
+import { useLayoutEffect } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
-import { MEALS } from "../data/dummy-data";
+import IconButton from '../components/IconButton';
+import List from '../components/MealDetail/List';
+import Subtitle from '../components/MealDetail/Subtitle';
+import MealDetails from '../components/MealDetails';
+import { MEALS } from '../data/dummy-data';
 
-export default function MealDetailScreen({ route, navigation }) {
+function MealDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
-  const headerButtonHandler = () => {
-    console.log('pressed');
-  };
+  function headerButtonPressHandler() {
+    console.log('Pressed!');
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <IconButton icon='star' color='white' onPress={headerButtonHandler} />
-      }
-    })
-  }, [navigation, headerButtonHandler])
+        return (
+          <IconButton
+            icon="star"
+            color="white"
+            onPress={headerButtonPressHandler}
+          />
+        );
+      },
+    });
+  }, [navigation, headerButtonPressHandler]);
 
   return (
     <ScrollView style={styles.rootContainer}>
-      <Image
-        source={{ uri: selectedMeal.imageUrl }}
-        style={styles.image}
-      />
+      <Image style={styles.image} source={{ uri: selectedMeal.imageUrl }} />
       <Text style={styles.title}>{selectedMeal.title}</Text>
       <MealDetails
         duration={selectedMeal.duration}
@@ -41,13 +44,15 @@ export default function MealDetailScreen({ route, navigation }) {
         <View style={styles.listContainer}>
           <Subtitle>Ingredients</Subtitle>
           <List data={selectedMeal.ingredients} />
-          <Subtitle>steps</Subtitle>
+          <Subtitle>Steps</Subtitle>
           <List data={selectedMeal.steps} />
         </View>
       </View>
     </ScrollView>
   );
 }
+
+export default MealDetailScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   detailText: {
-    color: 'white'
+    color: 'white',
   },
   listOuterContainer: {
     alignItems: 'center',
